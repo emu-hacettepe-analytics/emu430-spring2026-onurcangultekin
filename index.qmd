@@ -1,12 +1,12 @@
 ---
-title: "Selini çok seviyorum"
+title: "Welcome to My Analytics Lab"
 sidebar: false 
 ---
 
 Hello! My name is Onur Can Gültekin.
 
+I am an Industrial Engineering student at Hacettepe University.
+
 This is my personal webpage.
 
 Please stay tuned to follow my works on data analytics, blog posts, and more.
-
-This is our template.
