@@ -3,9 +3,12 @@ title: "About Me"
 sidebar: false 
 ---
 
+If you want, you can download my CV from here. —–\> [Download my CV](cv.pdf)
+
 # Education
 
 -   B.S., Industrial Engineering, Hacettepe University, Turkey, 2021 - ongoing.
+-   Gazi Anadolu Highschool, Turkey, 2017-2021
 
 # Work Experience
 
