@@ -31,3 +31,77 @@ B\) Unstructured Data
 C\) Random Data
 
 D\) Visual Data
+
+
+## Question 4
+
+```{r}
+# ── 1. Paket ve veri yükleme ──────────────────────────────────────────────────
+# install.packages("dslabs")  # ilk kez kuruyorsanız bu satırı açın
+library(dslabs)
+library(dplyr)
+library(knitr)        # kable() için
+
+data("polls_us_election_2016")
+
+# ── 2. Kişisel değişkenler ────────────────────────────────────────────────────
+my_first     <- "ADINIZ"       # ← buraya kendi adınızı yazın (örn. "Ayse")
+my_birth_year <- 2000          # ← buraya kendi doğum yılınızı yazın (örn. 2000)
+
+# ── 3. k hesaplama ────────────────────────────────────────────────────────────
+k <- (nchar(my_first) + my_birth_year) %% 15 + 8
+cat("k =", k, "\n")
+
+# ── 4. Orijinal veri setinden k satır gösterme ────────────────────────────────
+if (k %% 2 == 0) {
+  kable(head(polls_us_election_2016, k),
+        caption = paste("İlk", k, "satır (k çift)"))
+} else {
+  kable(tail(polls_us_election_2016, k),
+        caption = paste("Son", k, "satır (k tek)"))
+}
+
+# ── 5. NA değerleri ───────────────────────────────────────────────────────────
+# Toplam NA sayısı
+total_na <- sum(is.na(polls_us_election_2016))
+cat("Toplam NA sayısı:", total_na, "\n")
+
+# Sütun bazında NA sayısı (büyükten küçüğe, ilk 8)
+na_per_col <- sort(colSums(is.na(polls_us_election_2016)), decreasing = TRUE)
+kable(head(as.data.frame(na_per_col), 8),
+      col.names = c("NA Sayısı"),
+      caption = "Sütun Bazında NA (İlk 8)")
+
+# ── 6. NA değerlerini doldurma ────────────────────────────────────────────────
+new_data <- polls_us_election_2016  # orijinali bozmuyoruz
+
+for (col in names(new_data)) {
+  if (is.numeric(new_data[[col]])) {
+    # Sayısal sütunlar: my_birth_year + k ile doldur
+    new_data[[col]][is.na(new_data[[col]])] <- my_birth_year + k
+  } else if (is.character(new_data[[col]]) || is.factor(new_data[[col]])) {
+    # Karakter/faktör sütunlar: "ADINIZ_k" ile doldur
+    fill_val <- paste0(my_first, "_", k)
+    if (is.factor(new_data[[col]])) {
+      levels(new_data[[col]]) <- c(levels(new_data[[col]]), fill_val)
+    }
+    new_data[[col]][is.na(new_data[[col]])] <- fill_val
+  }
+}
+
+# ── 7. Yeni veri setinden çıktılar ───────────────────────────────────────────
+# 7a. Aynı kurala göre k satır
+if (k %% 2 == 0) {
+  kable(head(new_data, k),
+        caption = paste("Yeni veri - İlk", k, "satır (k çift)"))
+} else {
+  kable(tail(new_data, k),
+        caption = paste("Yeni veri - Son", k, "satır (k tek)"))
+}
+
+# 7b. Kalan NA sayısı
+cat("Yeni verideki toplam NA:", sum(is.na(new_data)), "\n")
+
+# 7c. anyNA kontrolü (FALSE olmalı)
+cat("anyNA(new_data):", anyNA(new_data), "\n")
+```
