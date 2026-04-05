@@ -9,7 +9,7 @@ title: "Assignment 1"
 ```
 
 My first assignment has two parts.
-
+## Task 3
 ## (a)
 
 The video I choose is Veri Bilimi ve Endüstri Mühendisliği Üzerine Sohbetler - **Mustafa Baydoğan & Erdi Daşdemir**
@@ -33,75 +33,68 @@ C\) Random Data
 D\) Visual Data
 
 
-## Question 4
+## Task 4
 
 ```{r}
-# ── 1. Paket ve veri yükleme ──────────────────────────────────────────────────
-# install.packages("dslabs")  # ilk kez kuruyorsanız bu satırı açın
 library(dslabs)
 library(dplyr)
-library(knitr)        # kable() için
+library(knitr)
+#I installed dslabs, dplyr and knitr. (I used GPT)
 
 data("polls_us_election_2016")
+#I imported the data from dslabs
 
-# ── 2. Kişisel değişkenler ────────────────────────────────────────────────────
-my_first     <- "ADINIZ"       # ← buraya kendi adınızı yazın (örn. "Ayse")
-my_birth_year <- 2000          # ← buraya kendi doğum yılınızı yazın (örn. 2000)
+my_first <- "Onur"
+my_birth_year <- 2003
+#Defined the variables
 
-# ── 3. k hesaplama ────────────────────────────────────────────────────────────
 k <- (nchar(my_first) + my_birth_year) %% 15 + 8
-cat("k =", k, "\n")
+cat("k=",k,"\n")
 
-# ── 4. Orijinal veri setinden k satır gösterme ────────────────────────────────
 if (k %% 2 == 0) {
   kable(head(polls_us_election_2016, k),
-        caption = paste("İlk", k, "satır (k çift)"))
+        caption = paste("First", k, "row (k is even)"))
 } else {
   kable(tail(polls_us_election_2016, k),
-        caption = paste("Son", k, "satır (k tek)"))
+        caption = paste("Last", k, "row (k is odd)"))
 }
+#I used GPT to write the if else structure
 
-# ── 5. NA değerleri ───────────────────────────────────────────────────────────
-# Toplam NA sayısı
 total_na <- sum(is.na(polls_us_election_2016))
-cat("Toplam NA sayısı:", total_na, "\n")
+cat("Total number of NA values:", total_na, "\n")
 
-# Sütun bazında NA sayısı (büyükten küçüğe, ilk 8)
+#I sorted the biggest 8 NA values from largest to smallest (I used GPT)
 na_per_col <- sort(colSums(is.na(polls_us_election_2016)), decreasing = TRUE)
 kable(head(as.data.frame(na_per_col), 8),
-      col.names = c("NA Sayısı"),
-      caption = "Sütun Bazında NA (İlk 8)")
+      col.names = c("NA count"),
+      caption = "NA values per column(Top 8)")
 
-# ── 6. NA değerlerini doldurma ────────────────────────────────────────────────
-new_data <- polls_us_election_2016  # orijinali bozmuyoruz
+new_data <- polls_us_election_2016
 
 for (col in names(new_data)) {
   if (is.numeric(new_data[[col]])) {
-    # Sayısal sütunlar: my_birth_year + k ile doldur
+    #for Numeric Columns
     new_data[[col]][is.na(new_data[[col]])] <- my_birth_year + k
-  } else if (is.character(new_data[[col]]) || is.factor(new_data[[col]])) {
-    # Karakter/faktör sütunlar: "ADINIZ_k" ile doldur
-    fill_val <- paste0(my_first, "_", k)
-    if (is.factor(new_data[[col]])) {
-      levels(new_data[[col]]) <- c(levels(new_data[[col]]), fill_val)
-    }
-    new_data[[col]][is.na(new_data[[col]])] <- fill_val
+  } else if (is.character(new_data[[col]])) {
+    #for character columns:
+    new_data[[col]][is.na(new_data[[col]])] <- paste0(my_first, "_", k)
+  } else if (is.factor(new_data[[col]])) {
+    # For factor columns
+    levels(new_data[[col]]) <- c(levels(new_data[[col]]), paste0(my_first, "_", k))
+    new_data[[col]][is.na(new_data[[col]])] <- paste0(my_first, "_", k)
   }
 }
 
-# ── 7. Yeni veri setinden çıktılar ───────────────────────────────────────────
-# 7a. Aynı kurala göre k satır
 if (k %% 2 == 0) {
   kable(head(new_data, k),
-        caption = paste("Yeni veri - İlk", k, "satır (k çift)"))
+        caption = paste("New data - First", k, "rows (k is even)"))
 } else {
   kable(tail(new_data, k),
-        caption = paste("Yeni veri - Son", k, "satır (k tek)"))
+        caption = paste("New data - Last", k, "rows (k is odd)"))
 }
+#I used GPT for if else strctures
 
-# 7b. Kalan NA sayısı
-cat("Yeni verideki toplam NA:", sum(is.na(new_data)), "\n")
+cat("Total NA values in new data:", sum(is.na(new_data)), "\n")
 
-# 7c. anyNA kontrolü (FALSE olmalı)
 cat("anyNA(new_data):", anyNA(new_data), "\n")
 ```
