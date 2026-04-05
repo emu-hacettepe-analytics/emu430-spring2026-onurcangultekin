@@ -2,14 +2,10 @@
 title: "Assignment 1"
 ---
 
-# Assignment 1
-
-```{r}
-1 + 1
-```
-
 My first assignment has two parts.
+
 ## Task 3
+
 ## (a)
 
 The video I choose is Veri Bilimi ve Endüstri Mühendisliği Üzerine Sohbetler - **Mustafa Baydoğan & Erdi Daşdemir**
