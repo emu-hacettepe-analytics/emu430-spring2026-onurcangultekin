@@ -332,7 +332,7 @@ ul.task-list li input[type="checkbox"] {
 <p>Hello! My name is Onur Can Gültekin. I am an Industrial Engineering student at Hacettepe University.</p>
 <p>This is my personal webpage. Please stay tuned to follow my works on data analytics, blog posts, and more.</p>
 <p>HAVE FUN AND GOOD LUCK!</p>
-```{=html}
+
 <style>
 #app{max-width:700px;margin:0 auto;padding:1rem 0;font-family:var(--font-sans)}
 #canvas{border-radius:var(--border-radius-lg);border:0.5px solid var(--color-border-tertiary);display:block;margin:0 auto;cursor:pointer}
@@ -367,22 +367,26 @@ ul.task-list li input[type="checkbox"] {
 .shot-dot.pending{border-color:#e25822}
 #endgame-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.72);z-index:9999;align-items:center;justify-content:center;backdrop-filter:blur(5px)}
 #endgame-overlay.show{display:flex}
-#endgame-modal{background:var(--color-background-primary);border:0.5px solid var(--color-border-secondary);border-radius:18px;padding:28px 24px;max-width:400px;width:92%;max-height:90vh;overflow-y:auto;box-shadow:0 24px 64px rgba(0,0,0,0.45)}
-#endgame-modal h2{font-size:20px;font-weight:600;margin:0 0 4px;color:var(--color-text-primary);text-align:center}
+#endgame-modal{background:#fff;border:0.5px solid #ddd;border-radius:18px;padding:28px 24px;max-width:400px;width:92%;max-height:90vh;overflow-y:auto;box-shadow:0 24px 64px rgba(0,0,0,0.45)}
+#endgame-modal h2{font-size:20px;font-weight:600;margin:0 0 4px;color:#111;text-align:center}
 .final-score{font-size:44px;font-weight:700;color:#e25822;text-align:center;margin:6px 0 2px;line-height:1}
-.final-sub{font-size:13px;color:var(--color-text-secondary);text-align:center;margin:0 0 14px}
+.final-sub{font-size:13px;color:#555;text-align:center;margin:0 0 14px}
 #name-section{display:flex;flex-direction:column;gap:8px;margin-bottom:4px}
-#name-section label{font-size:13px;font-weight:500;color:var(--color-text-primary)}
-#modal-name-input{width:100%;box-sizing:border-box;padding:9px 12px;border-radius:8px;border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-primary);font-size:14px}
+#name-section label{font-size:13px;font-weight:500;color:#111}
+#modal-name-input{width:100%;box-sizing:border-box;padding:9px 12px;border-radius:8px;border:1px solid #ccc;background:#fff;color:#111;font-size:14px}
 #modal-save-btn{width:100%;padding:10px;border-radius:8px;background:#e25822;color:#fff;border:none;cursor:pointer;font-size:14px;font-weight:600}
 #modal-save-btn:disabled{opacity:.5;cursor:default}
-#modal-status{font-size:12px;color:var(--color-text-secondary);text-align:center;min-height:16px;margin-top:2px}
-#modal-not-hard{font-size:13px;color:var(--color-text-secondary);text-align:center;padding:6px 0;font-style:italic}
+#modal-status{font-size:12px;color:#555;text-align:center;min-height:16px;margin-top:2px}
+#modal-not-hard{font-size:13px;color:#555;text-align:center;padding:6px 0;font-style:italic}
 #modal-lb{margin-top:12px}
-#modal-lb-title{font-size:13px;font-weight:600;color:var(--color-text-primary);margin-bottom:6px}
-#play-again-btn{width:100%;padding:10px;border-radius:8px;background:var(--color-background-secondary);color:var(--color-text-primary);border:0.5px solid var(--color-border-secondary);cursor:pointer;font-size:14px;font-weight:500;margin-top:10px}
-#play-again-btn:hover{background:var(--color-background-tertiary)}
-.lb-empty{font-size:13px;color:var(--color-text-secondary);padding:8px 0}
+#modal-lb-title{font-size:13px;font-weight:600;color:#111;margin-bottom:6px}
+#modal-lb-list .lb-row{border-bottom-color:#e5e5e5}
+#modal-lb-list .lb-rank{color:#555}
+#modal-lb-list .lb-name{color:#111}
+#modal-lb-list .lb-score{color:#111}
+#play-again-btn{width:100%;padding:10px;border-radius:8px;background:#f1f1f1;color:#111;border:1px solid #ccc;cursor:pointer;font-size:14px;font-weight:500;margin-top:10px}
+#play-again-btn:hover{background:#e2e2e2}
+.lb-empty{font-size:13px;color:#666;padding:8px 0}
 </style>
 
 <div id="endgame-overlay">
@@ -451,8 +455,8 @@ ul.task-list li input[type="checkbox"] {
 //  3) Oluşturulan Bin'in ID'sini (URL'deki uzun kodu) JSONBIN_ID'ye yaz
 //  4) Account → API Keys → Master Key'i JSONBIN_KEY'e yaz
 // ══════════════════════════════════════════════════════════
-const JSONBIN_ID  = '69d43291aaba882197ceddd4';
-const JSONBIN_KEY = '$2a$10$dgmp9aT06xyTnrJhC0GocOqkwzDJYTyTkvcxUUSEei3i56qzq.uWm';
+const JSONBIN_ID  = 'BURAYA_BIN_ID';     // örn: '6630f1a3acd3cb34a84b1234'
+const JSONBIN_KEY = 'BURAYA_MASTER_KEY'; // örn: '$2a$10$xxxxxxxxxxxx'
 // ══════════════════════════════════════════════════════════
 
 const BIN_URL = `https://api.jsonbin.io/v3/b/${JSONBIN_ID}`;
@@ -671,7 +675,7 @@ updateShotDots();redrawStatic();
 setInterval(()=>{if(state==='idle'&&!gameOver)redrawStatic();},50);
 loadLB().then(renderLB);
 </script>
-```
+
 
 
 
