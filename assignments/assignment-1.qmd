@@ -32,9 +32,7 @@ D\) Visual Data
 
 ```{r}
 library(dslabs)
-library(dplyr)
-library(knitr)
-#I installed dslabs, dplyr and knitr. (I used GPT)
+#I installed dslabs.
 
 data("polls_us_election_2016")
 #I imported the data from dslabs
@@ -44,14 +42,12 @@ my_birth_year <- 2003
 #Defined the variables
 
 k <- (nchar(my_first) + my_birth_year) %% 15 + 8
-cat("k=",k,"\n")
+cat("k =", k, "\n")
 
 if (k %% 2 == 0) {
-  kable(head(polls_us_election_2016, k),
-        caption = paste("First", k, "row (k is even)"))
+  print(head(polls_us_election_2016, k))
 } else {
-  kable(tail(polls_us_election_2016, k),
-        caption = paste("Last", k, "row (k is odd)"))
+  print(tail(polls_us_election_2016, k))
 }
 #I used GPT to write the if else structure
 
@@ -59,10 +55,9 @@ total_na <- sum(is.na(polls_us_election_2016))
 cat("Total number of NA values:", total_na, "\n")
 
 #I sorted the biggest 8 NA values from largest to smallest (I used GPT)
+
 na_per_col <- sort(colSums(is.na(polls_us_election_2016)), decreasing = TRUE)
-kable(head(as.data.frame(na_per_col), 8),
-      col.names = c("NA count"),
-      caption = "NA values per column(Top 8)")
+print(head(as.data.frame(na_per_col), 8))
 
 new_data <- polls_us_election_2016
 
@@ -71,7 +66,7 @@ for (col in names(new_data)) {
     #for Numeric Columns
     new_data[[col]][is.na(new_data[[col]])] <- my_birth_year + k
   } else if (is.character(new_data[[col]])) {
-    #for character columns:
+    #for character columns
     new_data[[col]][is.na(new_data[[col]])] <- paste0(my_first, "_", k)
   } else if (is.factor(new_data[[col]])) {
     # For factor columns
@@ -81,15 +76,12 @@ for (col in names(new_data)) {
 }
 
 if (k %% 2 == 0) {
-  kable(head(new_data, k),
-        caption = paste("New data - First", k, "rows (k is even)"))
+  print(head(new_data, k))
 } else {
-  kable(tail(new_data, k),
-        caption = paste("New data - Last", k, "rows (k is odd)"))
+  print(tail(new_data, k))
 }
-#I used GPT for if else strctures
+#I used GPT for if else structures
 
 cat("Total NA values in new data:", sum(is.na(new_data)), "\n")
-
 cat("anyNA(new_data):", anyNA(new_data), "\n")
 ```
