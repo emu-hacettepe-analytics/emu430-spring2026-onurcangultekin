@@ -329,10 +329,10 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Hello! My name is Onur Can Gültekin.</p>
-<p>I am an Industrial Engineering student at Hacettepe University.</p>
-<p>This is my personal webpage.</p>
-<p>Please stay tuned to follow my works on data analytics, blog posts, and more.</p>
+<p>Hello! My name is Onur Can Gültekin. I am an Industrial Engineering student at Hacettepe University.</p>
+<p>This is my personal webpage. Please stay tuned to follow my works on data analytics, blog posts, and more.</p>
+<p>HAVE FUN AND GOOD LUCK!</p>
+```{=html}
 <style>
 #app{max-width:700px;margin:0 auto;padding:1rem 0;font-family:var(--font-sans)}
 #canvas{border-radius:var(--border-radius-lg);border:0.5px solid var(--color-border-tertiary);display:block;margin:0 auto;cursor:pointer}
@@ -346,6 +346,7 @@ ul.task-list li input[type="checkbox"] {
 #msg{font-size:14px;font-weight:500;min-height:20px;margin:6px 0 0;color:var(--color-text-primary);text-align:center}
 #shoot-btn{margin:8px auto 0;display:block;font-size:14px;padding:9px 40px;border-radius:var(--border-radius-lg);background:#e25822;color:#fff;border:none;cursor:pointer;font-weight:500}
 #shoot-btn:active{transform:scale(.97)}
+#shoot-btn:disabled{opacity:.5;cursor:default}
 .stat-row{display:flex;justify-content:center;gap:28px;margin:8px 0 0}
 .stat{text-align:center}
 .stat-num{font-size:22px;font-weight:500;color:var(--color-text-primary)}
@@ -355,16 +356,55 @@ ul.task-list li input[type="checkbox"] {
 #lb-list{margin:8px 0 0}
 .lb-row{display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:0.5px solid var(--color-border-tertiary);font-size:13px}
 .lb-row:last-child{border-bottom:none}
+.lb-row.highlight{background:rgba(226,88,34,0.1);border-radius:6px;padding-left:6px;margin-left:-6px}
 .lb-rank{width:22px;text-align:center;font-weight:500;color:var(--color-text-secondary)}
 .lb-name{flex:1;color:var(--color-text-primary)}
-.lb-diff{font-size:11px;color:var(--color-text-secondary);background:var(--color-background-secondary);padding:2px 7px;border-radius:10px}
 .lb-score{font-weight:500;color:var(--color-text-primary);min-width:36px;text-align:right}
-#save-row{display:flex;gap:8px;margin-top:10px}
-#save-row input{flex:1;padding:7px 10px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-primary);font-size:13px}
-#save-btn{padding:7px 18px;border-radius:var(--border-radius-md);background:#e25822;color:#fff;border:none;cursor:pointer;font-size:13px;font-weight:500;white-space:nowrap}
-#save-btn:disabled{opacity:.5;cursor:default}
-#lb-status{font-size:12px;color:var(--color-text-secondary);margin:4px 0 0;min-height:16px}
+#shots-display{display:flex;justify-content:center;gap:6px;margin:10px 0 0;flex-wrap:wrap}
+.shot-dot{width:14px;height:14px;border-radius:50%;background:var(--color-background-secondary);border:1.5px solid var(--color-border-secondary);transition:all .3s}
+.shot-dot.make{background:#27ae60;border-color:#27ae60}
+.shot-dot.miss{background:#e74c3c;border-color:#e74c3c}
+.shot-dot.pending{border-color:#e25822}
+#endgame-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.72);z-index:9999;align-items:center;justify-content:center;backdrop-filter:blur(5px)}
+#endgame-overlay.show{display:flex}
+#endgame-modal{background:var(--color-background-primary);border:0.5px solid var(--color-border-secondary);border-radius:18px;padding:28px 24px;max-width:400px;width:92%;max-height:90vh;overflow-y:auto;box-shadow:0 24px 64px rgba(0,0,0,0.45)}
+#endgame-modal h2{font-size:20px;font-weight:600;margin:0 0 4px;color:var(--color-text-primary);text-align:center}
+.final-score{font-size:44px;font-weight:700;color:#e25822;text-align:center;margin:6px 0 2px;line-height:1}
+.final-sub{font-size:13px;color:var(--color-text-secondary);text-align:center;margin:0 0 14px}
+#name-section{display:flex;flex-direction:column;gap:8px;margin-bottom:4px}
+#name-section label{font-size:13px;font-weight:500;color:var(--color-text-primary)}
+#modal-name-input{width:100%;box-sizing:border-box;padding:9px 12px;border-radius:8px;border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-primary);font-size:14px}
+#modal-save-btn{width:100%;padding:10px;border-radius:8px;background:#e25822;color:#fff;border:none;cursor:pointer;font-size:14px;font-weight:600}
+#modal-save-btn:disabled{opacity:.5;cursor:default}
+#modal-status{font-size:12px;color:var(--color-text-secondary);text-align:center;min-height:16px;margin-top:2px}
+#modal-not-hard{font-size:13px;color:var(--color-text-secondary);text-align:center;padding:6px 0;font-style:italic}
+#modal-lb{margin-top:12px}
+#modal-lb-title{font-size:13px;font-weight:600;color:var(--color-text-primary);margin-bottom:6px}
+#play-again-btn{width:100%;padding:10px;border-radius:8px;background:var(--color-background-secondary);color:var(--color-text-primary);border:0.5px solid var(--color-border-secondary);cursor:pointer;font-size:14px;font-weight:500;margin-top:10px}
+#play-again-btn:hover{background:var(--color-background-tertiary)}
+.lb-empty{font-size:13px;color:var(--color-text-secondary);padding:8px 0}
 </style>
+
+<div id="endgame-overlay">
+  <div id="endgame-modal">
+    <h2 class="anchored">Game Over! 🏀</h2>
+    <div class="final-score" id="modal-score">0 pts</div>
+    <div class="final-sub" id="modal-sub"></div>
+    <hr class="divider" style="margin:12px 0">
+    <div id="name-section">
+      <label>Liderlik tablosuna adını yaz</label>
+      <input id="modal-name-input" type="text" placeholder="İsmin" maxlength="20" autocomplete="off">
+      <button id="modal-save-btn">Liderlik Tablosuna Kaydet 🏆</button>
+      <div id="modal-status"></div>
+    </div>
+    <div id="modal-not-hard" style="display:none">Liderlik tablosuna girmek için <strong>Hard</strong> modda oyna!</div>
+    <div id="modal-lb" style="display:none">
+      <div id="modal-lb-title">🏆 Top 10 Global Leaderboard</div>
+      <div id="modal-lb-list"></div>
+    </div>
+    <button id="play-again-btn">🔄 Tekrar Dene</button>
+  </div>
+</div>
 
 <div id="app">
   <p class="section-title">Ball color</p>
@@ -382,200 +422,185 @@ ul.task-list li input[type="checkbox"] {
     <button class="pill-btn" data-diff="Medium" data-speed="2.4" style="--sel:#f59e0b">Medium</button>
     <button class="pill-btn" data-diff="Hard" data-speed="3.8" style="--sel:#e74c3c">Hard</button>
   </div>
-
   <canvas id="canvas" width="420" height="320"></canvas>
   <div id="timing-bar-wrap"><div id="timing-bar"></div></div>
-  <div id="msg">Press SHOOT to start!</div>
+  <div id="msg">Press SHOOT to start! (10 shots per game)</div>
+  <div id="shots-display"></div>
   <div class="stat-row">
     <div class="stat"><div class="stat-num" id="score">0</div><div class="stat-lbl">Points</div></div>
-    <div class="stat"><div class="stat-num" id="attempts">0</div><div class="stat-lbl">Attempts</div></div>
+    <div class="stat"><div class="stat-num" id="shots-left">10</div><div class="stat-lbl">Shots Left</div></div>
     <div class="stat"><div class="stat-num" id="pct">0%</div><div class="stat-lbl">Accuracy</div></div>
   </div>
   <div style="text-align:center"><button id="shoot-btn">SHOOT</button></div>
   <hr class="divider">
   <div id="leaderboard">
     <div style="display:flex;align-items:center;justify-content:space-between">
-      <span style="font-size:14px;font-weight:500;color:var(--color-text-primary)">Top 10 Leaderboard</span>
+      <span style="font-size:14px;font-weight:500;color:var(--color-text-primary)">🏆 Global Leaderboard <span style="font-size:11px;color:var(--color-text-secondary);font-weight:400">(Hard mode only)</span></span>
       <span id="lb-loading" style="font-size:12px;color:var(--color-text-secondary)">Loading...</span>
     </div>
     <div id="lb-list"></div>
-    <div id="save-row">
-      <input id="name-input" type="text" placeholder="Your name" maxlength="20">
-      <button id="save-btn" disabled="">Save score</button>
-    </div>
-    <div id="lb-status"></div>
   </div>
 </div>
 
 <script>
-const canvas=document.getElementById('canvas'),ctx=canvas.getContext('2d');
-const W=canvas.width,H=canvas.height;
-let ballColor='#e25822',timerSpeed=1.4,diffLabel='Easy';
-let state='idle',timerVal=0,timerDir=1;
-let ballX,ballY,ballVx,ballVy,spin=0,scored=false,animId=null;
-let score=0,attempts=0,makes=0;
-let cheerTimer=0;
-let confetti=[];
+// ══════════════════════════════════════════════════════════
+//  JSONBin.io Kurulumu — sadece aşağıdaki 2 satırı doldur
+//
+//  1) https://jsonbin.io  →  ücretsiz hesap aç
+//  2) "New Bin" → içine şunu yapıştır: {"scores":[]}  → Create
+//  3) Oluşturulan Bin'in ID'sini (URL'deki uzun kodu) JSONBIN_ID'ye yaz
+//  4) Account → API Keys → Master Key'i JSONBIN_KEY'e yaz
+// ══════════════════════════════════════════════════════════
+const JSONBIN_ID  = '69d43291aaba882197ceddd4';
+const JSONBIN_KEY = '$2a$10$dgmp9aT06xyTnrJhC0GocOqkwzDJYTyTkvcxUUSEei3i56qzq.uWm';
+// ══════════════════════════════════════════════════════════
 
-const HOOP_X=330,HOOP_Y=108,HOOP_R=20;
-const BX=100,BY=210;
+const BIN_URL = `https://api.jsonbin.io/v3/b/${JSONBIN_ID}`;
 
-const CROWD=[];
-const crowdColors=['#e74c3c','#3b82f6','#f59e0b','#8b5cf6','#ec4899','#27ae60','#e25822','#64748b'];
-for(let row=0;row<3;row++){
-  for(let i=0;i<22;i++){
-    CROWD.push({
-      x:10+i*19,y:18+row*28,
-      color:crowdColors[Math.floor(Math.random()*crowdColors.length)],
-      phase:Math.random()*Math.PI*2,
-      speed:0.04+Math.random()*0.03
+async function loadLB() {
+  try {
+    const r = await fetch(BIN_URL + '/latest', {
+      headers: { 'X-Master-Key': JSONBIN_KEY }
     });
-  }
+    if (!r.ok) return [];
+    const d = await r.json();
+    return d.record.scores || [];
+  } catch(e) { return []; }
 }
 
-function drawStands(){
-  ctx.fillStyle='#1e293b';ctx.fillRect(0,0,W,H*0.42);
-  for(let r=0;r<3;r++){
-    ctx.fillStyle=r%2===0?'#263548':'#1e2d3e';
-    ctx.fillRect(0,8+r*28,W,26);
-  }
-}
-function drawCrowd(){
-  CROWD.forEach(p=>{
-    const bounce=cheerTimer>0?Math.sin(p.phase)*6:Math.sin(p.phase*0.3)*1.5;
-    const armAngle=cheerTimer>0?-2.0+Math.sin(p.phase+Date.now()*0.005)*0.4:-0.3;
-    const cy=p.y+bounce;
-    ctx.fillStyle=p.color;ctx.fillRect(p.x-5,cy+10,10,12);
-    ctx.fillStyle='#f4a261';ctx.beginPath();ctx.arc(p.x,cy+7,6,0,Math.PI*2);ctx.fill();
-    ctx.strokeStyle=p.color;ctx.lineWidth=2;
-    ctx.beginPath();
-    ctx.moveTo(p.x-5,cy+13);ctx.lineTo(p.x-11,cy+13+Math.cos(armAngle)*8);
-    ctx.moveTo(p.x+5,cy+13);ctx.lineTo(p.x+11,cy+13+Math.cos(armAngle)*8);
-    ctx.stroke();
-    p.phase+=p.speed;
-  });
-}
-function drawFloor(){
-  ctx.fillStyle='#c8842a';ctx.fillRect(0,H*0.42,W,H*(1-0.42));
-  ctx.strokeStyle='#b5741f';ctx.lineWidth=0.8;
-  for(let i=0;i<12;i++){
-    const y=H*0.42+i*((H*(1-0.42))/12);
-    ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();
-  }
-  ctx.strokeStyle='rgba(255,255,255,0.5)';ctx.lineWidth=1.5;
-  ctx.beginPath();ctx.moveTo(0,H*0.44);ctx.lineTo(W,H*0.44);ctx.stroke();
-  ctx.beginPath();ctx.arc(W*0.15,H*0.44,60,0,Math.PI*0.6);
-  ctx.strokeStyle='rgba(255,255,255,0.3)';ctx.lineWidth=1.5;ctx.stroke();
-}
-function drawBackboard(){
-  ctx.fillStyle='#888';ctx.fillRect(HOOP_X+HOOP_R+6,HOOP_Y-32,5,H-HOOP_Y);
-  ctx.fillStyle='rgba(200,230,255,0.85)';ctx.fillRect(HOOP_X+HOOP_R+3,HOOP_Y-34,14,58);
-  ctx.strokeStyle='#e74c3c';ctx.lineWidth=1.5;ctx.strokeRect(HOOP_X+HOOP_R+5,HOOP_Y-20,10,28);
-  ctx.strokeStyle='#e74c3c';ctx.lineWidth=3;
-  ctx.beginPath();ctx.moveTo(HOOP_X-HOOP_R,HOOP_Y);ctx.lineTo(HOOP_X+HOOP_R+3,HOOP_Y);ctx.stroke();
-  ctx.strokeStyle='rgba(255,255,255,0.7)';ctx.lineWidth=1;
-  for(let i=0;i<5;i++){
-    ctx.beginPath();
-    ctx.moveTo(HOOP_X-HOOP_R+i*(HOOP_R*2/4),HOOP_Y);
-    ctx.lineTo(HOOP_X-HOOP_R/2+i*(HOOP_R/2),HOOP_Y+22);
-    ctx.stroke();
-  }
-  ctx.beginPath();
-  ctx.moveTo(HOOP_X-HOOP_R,HOOP_Y+8);ctx.lineTo(HOOP_X+HOOP_R,HOOP_Y+8);
-  ctx.moveTo(HOOP_X-HOOP_R+2,HOOP_Y+16);ctx.lineTo(HOOP_X+HOOP_R-2,HOOP_Y+16);
-  ctx.stroke();
-}
-function drawPlayer(){
-  ctx.fillStyle='#f4a261';ctx.beginPath();ctx.arc(BX,BY-50,13,0,Math.PI*2);ctx.fill();
-  ctx.fillStyle=ballColor;ctx.fillRect(BX-11,BY-37,22,28);
-  ctx.fillStyle='#1e293b';ctx.fillRect(BX-10,BY-9,20,16);
-  ctx.strokeStyle='rgba(0,0,0,0.3)';ctx.lineWidth=1.5;
-  ctx.beginPath();ctx.moveTo(BX-11,BY-9);ctx.lineTo(BX-17,BY+14);ctx.stroke();
-  ctx.beginPath();ctx.moveTo(BX+11,BY-9);ctx.lineTo(BX+24,BY-24);ctx.stroke();
-  ctx.beginPath();ctx.moveTo(BX-4,BY-9);ctx.lineTo(BX-9,BY+30);ctx.stroke();
-  ctx.beginPath();ctx.moveTo(BX+4,BY-9);ctx.lineTo(BX+9,BY+30);ctx.stroke();
-}
-function drawBall(x,y,s){
-  ctx.save();ctx.translate(x,y);ctx.rotate(s||0);
-  ctx.fillStyle=ballColor;ctx.beginPath();ctx.arc(0,0,12,0,Math.PI*2);ctx.fill();
-  ctx.strokeStyle='rgba(0,0,0,0.35)';ctx.lineWidth=1.3;
-  ctx.beginPath();ctx.moveTo(-12,0);ctx.lineTo(12,0);ctx.stroke();
-  ctx.beginPath();ctx.arc(0,0,12,0,Math.PI);ctx.stroke();
-  ctx.beginPath();ctx.arc(0,0,12,Math.PI,0);ctx.stroke();
-  ctx.restore();
-}
-function spawnConfetti(){
-  for(let i=0;i<40;i++){
-    confetti.push({
-      x:HOOP_X+Math.random()*40-20,y:HOOP_Y,
-      vx:(Math.random()-0.5)*4,vy:-Math.random()*5-2,
-      color:['#f59e0b','#e74c3c','#3b82f6','#ec4899','#27ae60','#fff'][Math.floor(Math.random()*6)],
-      life:1,w:5+Math.random()*5,h:4+Math.random()*3
+async function saveLB(scores) {
+  try {
+    await fetch(BIN_URL, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Master-Key': JSONBIN_KEY
+      },
+      body: JSON.stringify({ scores })
     });
-  }
+  } catch(e) {}
 }
-function updateConfetti(){
-  confetti=confetti.filter(c=>c.life>0);
-  confetti.forEach(c=>{
-    c.x+=c.vx;c.y+=c.vy;c.vy+=0.15;c.life-=0.025;
-    ctx.save();ctx.globalAlpha=c.life;ctx.fillStyle=c.color;
-    ctx.fillRect(c.x,c.y,c.w,c.h);ctx.restore();
-  });
-}
-function redrawStatic(){
-  ctx.clearRect(0,0,W,H);
-  drawStands();drawCrowd();drawFloor();drawBackboard();drawPlayer();
-  drawBall(BX+18,BY-32,0);
-}
-function updateBar(){
-  const bar=document.getElementById('timing-bar');
-  bar.style.width=timerVal+'%';
-  bar.style.background=(timerVal>38&&timerVal<62)?'#27ae60':ballColor;
+
+// ─── Game state ──────────────────────────────────────────
+const canvas = document.getElementById('canvas'), ctx = canvas.getContext('2d');
+const W = canvas.width, H = canvas.height;
+let ballColor = '#e25822', timerSpeed = 1.4, diffLabel = 'Easy';
+let state = 'idle', timerVal = 0, timerDir = 1;
+let ballX, ballY, ballVx, ballVy, spin = 0, scored = false, animId = null;
+let score = 0, makes = 0, shotsUsed = 0, shotResults = [];
+let gameOver = false, scoreSaved = false;
+let cheerTimer = 0, confetti = [];
+const MAX_SHOTS = 10;
+const HOOP_X = 330, HOOP_Y = 108, HOOP_R = 20;
+const BX = 100, BY = 210;
+
+const CROWD = [];
+const crowdColors = ['#e74c3c','#3b82f6','#f59e0b','#8b5cf6','#ec4899','#27ae60','#e25822','#64748b'];
+for(let row=0;row<3;row++) for(let i=0;i<22;i++) CROWD.push({x:10+i*19,y:18+row*28,color:crowdColors[Math.floor(Math.random()*crowdColors.length)],phase:Math.random()*Math.PI*2,speed:0.04+Math.random()*0.03});
+
+function drawStands(){ctx.fillStyle='#1e293b';ctx.fillRect(0,0,W,H*0.42);for(let r=0;r<3;r++){ctx.fillStyle=r%2===0?'#263548':'#1e2d3e';ctx.fillRect(0,8+r*28,W,26);}}
+function drawCrowd(){CROWD.forEach(p=>{const bounce=cheerTimer>0?Math.sin(p.phase)*6:Math.sin(p.phase*0.3)*1.5;const armAngle=cheerTimer>0?-2.0+Math.sin(p.phase+Date.now()*0.005)*0.4:-0.3;const cy=p.y+bounce;ctx.fillStyle=p.color;ctx.fillRect(p.x-5,cy+10,10,12);ctx.fillStyle='#f4a261';ctx.beginPath();ctx.arc(p.x,cy+7,6,0,Math.PI*2);ctx.fill();ctx.strokeStyle=p.color;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(p.x-5,cy+13);ctx.lineTo(p.x-11,cy+13+Math.cos(armAngle)*8);ctx.moveTo(p.x+5,cy+13);ctx.lineTo(p.x+11,cy+13+Math.cos(armAngle)*8);ctx.stroke();p.phase+=p.speed;});}
+function drawFloor(){ctx.fillStyle='#c8842a';ctx.fillRect(0,H*0.42,W,H*(1-0.42));ctx.strokeStyle='#b5741f';ctx.lineWidth=0.8;for(let i=0;i<12;i++){const y=H*0.42+i*((H*(1-0.42))/12);ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}ctx.strokeStyle='rgba(255,255,255,0.5)';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(0,H*0.44);ctx.lineTo(W,H*0.44);ctx.stroke();ctx.beginPath();ctx.arc(W*0.15,H*0.44,60,0,Math.PI*0.6);ctx.strokeStyle='rgba(255,255,255,0.3)';ctx.lineWidth=1.5;ctx.stroke();}
+function drawBackboard(){ctx.fillStyle='#888';ctx.fillRect(HOOP_X+HOOP_R+6,HOOP_Y-32,5,H-HOOP_Y);ctx.fillStyle='rgba(200,230,255,0.85)';ctx.fillRect(HOOP_X+HOOP_R+3,HOOP_Y-34,14,58);ctx.strokeStyle='#e74c3c';ctx.lineWidth=1.5;ctx.strokeRect(HOOP_X+HOOP_R+5,HOOP_Y-20,10,28);ctx.strokeStyle='#e74c3c';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(HOOP_X-HOOP_R,HOOP_Y);ctx.lineTo(HOOP_X+HOOP_R+3,HOOP_Y);ctx.stroke();ctx.strokeStyle='rgba(255,255,255,0.7)';ctx.lineWidth=1;for(let i=0;i<5;i++){ctx.beginPath();ctx.moveTo(HOOP_X-HOOP_R+i*(HOOP_R*2/4),HOOP_Y);ctx.lineTo(HOOP_X-HOOP_R/2+i*(HOOP_R/2),HOOP_Y+22);ctx.stroke();}ctx.beginPath();ctx.moveTo(HOOP_X-HOOP_R,HOOP_Y+8);ctx.lineTo(HOOP_X+HOOP_R,HOOP_Y+8);ctx.moveTo(HOOP_X-HOOP_R+2,HOOP_Y+16);ctx.lineTo(HOOP_X+HOOP_R-2,HOOP_Y+16);ctx.stroke();}
+function drawPlayer(){ctx.fillStyle='#f4a261';ctx.beginPath();ctx.arc(BX,BY-50,13,0,Math.PI*2);ctx.fill();ctx.fillStyle=ballColor;ctx.fillRect(BX-11,BY-37,22,28);ctx.fillStyle='#1e293b';ctx.fillRect(BX-10,BY-9,20,16);ctx.strokeStyle='rgba(0,0,0,0.3)';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(BX-11,BY-9);ctx.lineTo(BX-17,BY+14);ctx.stroke();ctx.beginPath();ctx.moveTo(BX+11,BY-9);ctx.lineTo(BX+24,BY-24);ctx.stroke();ctx.beginPath();ctx.moveTo(BX-4,BY-9);ctx.lineTo(BX-9,BY+30);ctx.stroke();ctx.beginPath();ctx.moveTo(BX+4,BY-9);ctx.lineTo(BX+9,BY+30);ctx.stroke();}
+function drawBall(x,y,s){ctx.save();ctx.translate(x,y);ctx.rotate(s||0);ctx.fillStyle=ballColor;ctx.beginPath();ctx.arc(0,0,12,0,Math.PI*2);ctx.fill();ctx.strokeStyle='rgba(0,0,0,0.35)';ctx.lineWidth=1.3;ctx.beginPath();ctx.moveTo(-12,0);ctx.lineTo(12,0);ctx.stroke();ctx.beginPath();ctx.arc(0,0,12,0,Math.PI);ctx.stroke();ctx.beginPath();ctx.arc(0,0,12,Math.PI,0);ctx.stroke();ctx.restore();}
+function spawnConfetti(){for(let i=0;i<40;i++)confetti.push({x:HOOP_X+Math.random()*40-20,y:HOOP_Y,vx:(Math.random()-0.5)*4,vy:-Math.random()*5-2,color:['#f59e0b','#e74c3c','#3b82f6','#ec4899','#27ae60','#fff'][Math.floor(Math.random()*6)],life:1,w:5+Math.random()*5,h:4+Math.random()*3});}
+function updateConfetti(){confetti=confetti.filter(c=>c.life>0);confetti.forEach(c=>{c.x+=c.vx;c.y+=c.vy;c.vy+=0.15;c.life-=0.025;ctx.save();ctx.globalAlpha=c.life;ctx.fillStyle=c.color;ctx.fillRect(c.x,c.y,c.w,c.h);ctx.restore();});}
+function redrawStatic(){ctx.clearRect(0,0,W,H);drawStands();drawCrowd();drawFloor();drawBackboard();drawPlayer();drawBall(BX+18,BY-32,0);}
+function updateBar(){const bar=document.getElementById('timing-bar');bar.style.width=timerVal+'%';bar.style.background=(timerVal>38&&timerVal<62)?'#27ae60':ballColor;}
+
+function updateShotDots(){
+  const el=document.getElementById('shots-display');el.innerHTML='';
+  for(let i=0;i<MAX_SHOTS;i++){const d=document.createElement('div');d.className='shot-dot';if(i<shotResults.length)d.classList.add(shotResults[i]);else if(i===shotsUsed&&!gameOver)d.classList.add('pending');el.appendChild(d);}
 }
 function updateStats(){
   document.getElementById('score').textContent=score;
-  document.getElementById('attempts').textContent=attempts;
-  document.getElementById('pct').textContent=attempts?Math.round(makes/attempts*100)+'%':'0%';
-  document.getElementById('save-btn').disabled=score===0;
+  document.getElementById('shots-left').textContent=Math.max(0,MAX_SHOTS-shotsUsed);
+  document.getElementById('pct').textContent=shotsUsed?Math.round(makes/shotsUsed*100)+'%':'0%';
 }
 function setMsg(t,c){const m=document.getElementById('msg');m.textContent=t;m.style.color=c||'var(--color-text-primary)';}
 
 function animate(){
-  ctx.clearRect(0,0,W,H);
-  drawStands();
+  ctx.clearRect(0,0,W,H);drawStands();
   if(cheerTimer>0)cheerTimer--;
-  drawCrowd();drawFloor();drawBackboard();drawPlayer();
-  updateConfetti();
-  if(state==='timing'){
-    timerVal+=timerDir*timerSpeed;
-    if(timerVal>=100||timerVal<=0)timerDir*=-1;
-    updateBar();drawBall(BX+18,BY-32,0);
-  }
+  drawCrowd();drawFloor();drawBackboard();drawPlayer();updateConfetti();
+  if(state==='timing'){timerVal+=timerDir*timerSpeed;if(timerVal>=100||timerVal<=0)timerDir*=-1;updateBar();drawBall(BX+18,BY-32,0);}
   if(state==='flying'){
-    ballX+=ballVx;ballY+=ballVy;ballVy+=0.3;spin+=0.13;
-    drawBall(ballX,ballY,spin);
+    ballX+=ballVx;ballY+=ballVy;ballVy+=0.3;spin+=0.13;drawBall(ballX,ballY,spin);
     const dx=ballX-HOOP_X,dy=ballY-HOOP_Y;
     if(!scored&&Math.sqrt(dx*dx+dy*dy)<HOOP_R+3){
-      scored=true;makes++;score+=2;attempts++;updateStats();
-      setMsg('BASKET! +2','#27ae60');cheerTimer=90;spawnConfetti();
-      state='done';setTimeout(reset,1600);return;
+      scored=true;makes++;score+=2;shotsUsed++;shotResults.push('make');
+      updateStats();updateShotDots();setMsg('BASKET! +2','#27ae60');cheerTimer=90;spawnConfetti();state='done';
+      if(shotsUsed>=MAX_SHOTS)setTimeout(triggerGameOver,1600);else setTimeout(reset,1600);return;
     }
     if(ballY>H+20){
-      if(!scored){attempts++;updateStats();setMsg('Miss! Try again.','#e74c3c');state='done';setTimeout(reset,1200);return;}
+      if(!scored){shotsUsed++;shotResults.push('miss');updateStats();updateShotDots();setMsg('Miss!','#e74c3c');state='done';if(shotsUsed>=MAX_SHOTS)setTimeout(triggerGameOver,1200);else setTimeout(reset,1200);}return;
     }
   }
   if(state!=='done')animId=requestAnimationFrame(animate);
   else{ctx.clearRect(0,0,W,H);drawStands();drawCrowd();drawFloor();drawBackboard();drawPlayer();}
 }
+
 function reset(){
+  if(gameOver)return;
   state='idle';timerVal=0;timerDir=1;scored=false;
   document.getElementById('timing-bar').style.width='0%';
-  setMsg('Press SHOOT to start!');
+  const left=MAX_SHOTS-shotsUsed;
+  setMsg(`Press SHOOT! (${left} shot${left===1?'':'s'} left)`);
   document.getElementById('shoot-btn').textContent='SHOOT';
+  document.getElementById('shoot-btn').disabled=false;
   cancelAnimationFrame(animId);redrawStatic();
 }
 
+async function triggerGameOver(){
+  gameOver=true;cancelAnimationFrame(animId);
+  document.getElementById('shoot-btn').disabled=true;
+  document.getElementById('shoot-btn').textContent='GAME OVER';
+  setMsg('Game Over!','#e25822');
+  await showEndgameModal();
+}
+
+async function showEndgameModal(){
+  document.getElementById('modal-score').textContent=score+' pts';
+  document.getElementById('modal-sub').textContent=`${makes}/${MAX_SHOTS} baskets • ${Math.round(makes/MAX_SHOTS*100)}% accuracy`;
+  const isHard=diffLabel==='Hard';
+  document.getElementById('name-section').style.display=isHard?'flex':'none';
+  document.getElementById('modal-not-hard').style.display=isHard?'none':'block';
+  if(!isHard){
+    const data=await loadLB();renderModalLB(data,null);
+    document.getElementById('modal-lb').style.display='block';
+  }
+  document.getElementById('endgame-overlay').classList.add('show');
+  if(isHard)document.getElementById('modal-name-input').focus();
+}
+
+function renderLB(data){
+  document.getElementById('lb-loading').textContent='';
+  const el=document.getElementById('lb-list');
+  if(!data.length){el.innerHTML='<div class="lb-empty">Hard modda henüz skor yok. İlk sen ol!</div>';return;}
+  el.innerHTML=data.slice(0,10).map((r,i)=>`
+    <div class="lb-row">
+      <span class="lb-rank">${i===0?'🥇':i===1?'🥈':i===2?'🥉':i+1}</span>
+      <span class="lb-name">${r.name}</span>
+      <span class="lb-score">${r.score} pts</span>
+    </div>`).join('');
+}
+
+function renderModalLB(data,highlightEntry){
+  const el=document.getElementById('modal-lb-list');
+  if(!data.length){el.innerHTML='<div class="lb-empty">Henüz skor yok!</div>';return;}
+  el.innerHTML=data.slice(0,10).map((r,i)=>{
+    const isMe=highlightEntry&&r.ts===highlightEntry.ts;
+    return `<div class="lb-row${isMe?' highlight':''}">
+      <span class="lb-rank">${i===0?'🥇':i===1?'🥈':i===2?'🥉':i+1}</span>
+      <span class="lb-name">${r.name}${isMe?' ← Sen':''}</span>
+      <span class="lb-score">${r.score} pts</span>
+    </div>`;
+  }).join('');
+}
+
 document.getElementById('shoot-btn').addEventListener('click',()=>{
+  if(gameOver)return;
   if(state==='idle'){state='timing';document.getElementById('shoot-btn').textContent='RELEASE!';setMsg('Release at the green zone!');animate();}
   else if(state==='timing'){
     const green=timerVal>38&&timerVal<62;
@@ -589,52 +614,64 @@ document.querySelectorAll('#color-btns .pill-btn').forEach(b=>{
   b.addEventListener('click',()=>{
     document.querySelectorAll('#color-btns .pill-btn').forEach(x=>x.classList.remove('active'));
     b.classList.add('active');ballColor=b.dataset.color;
-    document.getElementById('shoot-btn').style.background=b.dataset.color;
-    redrawStatic();
+    document.getElementById('shoot-btn').style.background=b.dataset.color;redrawStatic();
   });
 });
 document.querySelectorAll('#diff-btns .pill-btn').forEach(b=>{
   b.addEventListener('click',()=>{
+    if(shotsUsed>0)return;
     document.querySelectorAll('#diff-btns .pill-btn').forEach(x=>x.classList.remove('active'));
     b.classList.add('active');timerSpeed=parseFloat(b.dataset.speed);diffLabel=b.dataset.diff;
   });
 });
 
-redrawStatic();
-setInterval(()=>{if(state==='idle')redrawStatic();},50);
+document.getElementById('modal-save-btn').addEventListener('click',async()=>{
+  if(scoreSaved)return;
+  const name=document.getElementById('modal-name-input').value.trim();
+  if(!name){document.getElementById('modal-status').textContent='Lütfen bir isim gir.';return;}
+  document.getElementById('modal-save-btn').disabled=true;
+  document.getElementById('modal-status').textContent='Kaydediliyor...';
 
-const LB_KEY='basketball_arena_v2';
-async function loadLB(){try{const r=await window.storage.get(LB_KEY,true);return r?JSON.parse(r.value):[]}catch(e){return[]}}
-async function saveLB(d){try{await window.storage.set(LB_KEY,JSON.stringify(d),true)}catch(e){}}
-function renderLB(data){
-  document.getElementById('lb-loading').textContent='';
-  const el=document.getElementById('lb-list');
-  if(!data.length){el.innerHTML='<div style="font-size:13px;color:var(--color-text-secondary);padding:8px 0">No scores yet. Be the first!</div>';return;}
-  el.innerHTML=data.slice(0,10).map((r,i)=>`
-    <div class="lb-row">
-      <span class="lb-rank">${i===0?'🥇':i===1?'🥈':i===2?'🥉':i+1}</span>
-      <span class="lb-name">${r.name}</span>
-      <span class="lb-diff">${r.diff}</span>
-      <span class="lb-score">${r.score} pts</span>
-    </div>`).join('');
-}
-loadLB().then(renderLB);
-
-document.getElementById('save-btn').addEventListener('click',async()=>{
-  const name=document.getElementById('name-input').value.trim();
-  if(!name){document.getElementById('lb-status').textContent='Please enter your name.';return;}
-  if(score===0){document.getElementById('lb-status').textContent='Score at least 2 points first!';return;}
-  document.getElementById('save-btn').disabled=true;
-  document.getElementById('lb-status').textContent='Saving...';
   const data=await loadLB();
-  data.push({name,score,diff:diffLabel,ts:Date.now()});
+  const newEntry={name,score,ts:Date.now()};
+  data.push(newEntry);
   data.sort((a,b)=>b.score-a.score);
   const top=data.slice(0,10);
-  await saveLB(top);renderLB(top);
-  document.getElementById('lb-status').textContent='Saved! Good game.';
-  document.getElementById('name-input').value='';
+  const madeIt=top.some(r=>r.ts===newEntry.ts);
+
+  if(madeIt){
+    await saveLB(top);
+    scoreSaved=true;
+    document.getElementById('modal-status').textContent="İlk 10'dasın! 🎉";
+    renderLB(top);
+    renderModalLB(top,newEntry);
+  } else {
+    document.getElementById('modal-status').textContent="İlk 10'a giremedin, tekrar dene!";
+    renderModalLB(top,null);
+  }
+  document.getElementById('modal-lb').style.display='block';
 });
+
+document.getElementById('play-again-btn').addEventListener('click',()=>{
+  document.getElementById('endgame-overlay').classList.remove('show');
+  score=0;makes=0;shotsUsed=0;shotResults=[];gameOver=false;scoreSaved=false;
+  document.getElementById('modal-status').textContent='';
+  document.getElementById('modal-save-btn').disabled=false;
+  document.getElementById('modal-name-input').value='';
+  document.getElementById('modal-lb').style.display='none';
+  document.getElementById('shoot-btn').disabled=false;
+  document.getElementById('shoot-btn').style.background=ballColor;
+  updateStats();updateShotDots();
+  reset();
+  loadLB().then(renderLB);
+});
+
+// Init
+updateShotDots();redrawStatic();
+setInterval(()=>{if(state==='idle'&&!gameOver)redrawStatic();},50);
+loadLB().then(renderLB);
 </script>
+```
 
 
 
