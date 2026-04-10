@@ -530,6 +530,7 @@ async function triggerGameOver(){
   document.getElementById('shoot-btn').disabled=true;
   document.getElementById('shoot-btn').textContent='GAME OVER';
   setMsg('Game Over!','#e25822');
+  incCount();
   await showEndgameModal();
 }
 
@@ -847,13 +848,17 @@ async function loadCount(){
   const el=document.getElementById('statNum');
   if(el) el.textContent=d?(d.count||0).toLocaleString('tr-TR'):'—';
 }
-async function incCount(){
-  const d=await binGet2(COUNTER_BIN_ID);
-  if(!d)return;
-  const n=(d.count||0)+1;
-  await binSet2(COUNTER_BIN_ID,{count:n});
-  const el=document.getElementById('statNum');
-  if(el) el.textContent=n.toLocaleString('tr-TR');
+/* incCount — sıralı kuyruk ile race condition önlenir */
+let _incQueue = Promise.resolve();
+function incCount(){
+  _incQueue = _incQueue.then(async () => {
+    const d = await binGet2(COUNTER_BIN_ID);
+    if(!d) return;
+    const n = (d.count||0)+1;
+    await binSet2(COUNTER_BIN_ID,{count:n});
+    const el = document.getElementById('statNum');
+    if(el) el.textContent = n.toLocaleString('tr-TR');
+  }).catch(()=>{});
 }
 
 /* ══ WORDLE ══ */
